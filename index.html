@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompt Generator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    textarea, input { width: 100%; margin: 10px 0; padding: 10px; }
+    button { padding: 10px; width: 100%; }
+    pre { background: #111; color: #0f0; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+
+<h2>Auto Prompt Generator</h2>
+
+<input id="simple" placeholder="Simple prompt (contoh: samurai)">
+<textarea id="desc" placeholder="Deskripsi gambar"></textarea>
+
+<button onclick="generate()">Generate</button>
+
+<pre id="output"></pre>
+
+<script>
+function enhance(text) {
+  text = text.toLowerCase();
+
+  let lighting = text.includes("night")
+    ? "low key lighting, neon highlights"
+    : text.includes("sunset")
+    ? "golden hour lighting"
+    : "cinematic lighting";
+
+  let motion = text.includes("battle")
+    ? "dynamic motion"
+    : "smooth cinematic motion";
+
+  return { lighting, motion };
+}
+
+function randomStyle() {
+  const styles = [
+    "cyberpunk",
+    "fantasy",
+    "sci-fi",
+    "horror",
+    "surreal",
+    "anime",
+    "minimalist"
+  ];
+  return styles[Math.floor(Math.random() * styles.length)];
+}
+
+function generate() {
+  let simple = document.getElementById("simple").value;
+  let desc = document.getElementById("desc").value;
+
+  let e = enhance(simple + " " + desc);
+
+  let variations = [];
+
+  for (let i = 0; i < 3; i++) {
+    variations.push(
+      simple + ", " + desc + ", style: " + randomStyle() + ", " +
+      e.lighting + ", " +
+      e.motion + ", ultra detailed, cinematic, 8K"
+    );
+  }
+
+  document.getElementById("output").textContent = variations.join("\\n\\n---\\n\\n");
+}
+</script>
+
+</body>
+</html>
